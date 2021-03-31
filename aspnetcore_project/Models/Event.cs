@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,9 @@ namespace aspnetcore_project.Models
         public string Address { get; set; }
         public DateTime Date { get; set; }
         public int SpotsAvailable { get; set; }
-        public List<Attendee> Attendees { get; set; }
-        public Organizer Organizer { get; set; }
+        [InverseProperty("JoindEvents")]
+        public List<User> Attendees { get; set; }
+        [InverseProperty("HostedEvents")]
+        public User Organizer { get; set; }
     }
 }
