@@ -50,7 +50,7 @@ namespace aspnetcore_project.Pages
                 return NotFound();
             }
 
-            var attendee = await _context.Attendees.FirstOrDefaultAsync();
+            var attendee = await _context.Users.FirstOrDefaultAsync() as User;
 
             if (!Event.Attendees.Contains(attendee))
             {

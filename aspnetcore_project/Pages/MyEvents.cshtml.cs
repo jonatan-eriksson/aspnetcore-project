@@ -23,8 +23,8 @@ namespace aspnetcore_project.Pages
 
         public async Task OnGetAsync()
         {
-            var attendee = await _context.Attendees.Include(a => a.Events).FirstOrDefaultAsync();
-            Events = attendee.Events;
+            User attendee = await _context.Users.Include(a => a.JoindEvents).FirstOrDefaultAsync();
+            Events = attendee.JoindEvents;
         }
     }
 }

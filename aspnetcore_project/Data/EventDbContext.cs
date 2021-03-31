@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project.Data
 {
-    public class EventDbContext : IdentityDbContext <IdentityUser>
+    public class EventDbContext : IdentityDbContext <User>
     {
         public EventDbContext (DbContextOptions<EventDbContext> options)
             : base(options)
@@ -17,14 +17,12 @@ namespace aspnetcore_project.Data
         }
 
         public DbSet<Event> Events { get; set; }
-        public DbSet<Organizer> Organizers { get; set; }
-        public DbSet<Attendee> Attendees { get; set; }
 
         public void ResetAndSeed()
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
-
+/*
             Attendee[] attendees = new Attendee[] {
                 new Attendee()
                 {
@@ -41,7 +39,7 @@ namespace aspnetcore_project.Data
                     PhoneNumber = "+1 203 43 234",
                 },
             };
-
+*/
             Event[] events = new Event[] {
                 new Event(){
                     Title="Summer camp",
@@ -50,7 +48,7 @@ namespace aspnetcore_project.Data
                     Address="515 S Cascade Ave Colorado Springs, CO 80903",
                     Date=DateTime.Now.AddDays(34),
                     SpotsAvailable=234,
-                    Organizer= organizers[0],
+                    //Organizer= organizers[0],
                 },
                 new Event(){
                     Title="Moonhaven",
@@ -59,12 +57,12 @@ namespace aspnetcore_project.Data
                     Address="510 N McPherson Church Rd Fayetteville, NC 28303",
                     Date=DateTime.Now.AddDays(12),
                     SpotsAvailable=23,
-                    Organizer= organizers[0],
+                    //Organizer= organizers[0],
                 },
             };
 
-            AddRange(attendees);
-            AddRange(organizers);
+            //AddRange(attendees);
+            //AddRange(organizers);
             AddRange(events);
 
             SaveChanges();
