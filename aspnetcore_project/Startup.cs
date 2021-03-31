@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project
 {
@@ -29,6 +30,8 @@ namespace aspnetcore_project
 
             services.AddDbContext<EventDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("EventDbContext")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<EventDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +52,7 @@ namespace aspnetcore_project
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

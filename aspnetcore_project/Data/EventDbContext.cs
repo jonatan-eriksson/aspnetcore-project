@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project.Data
 {
-    public class EventDbContext : DbContext
+    public class EventDbContext : IdentityDbContext <IdentityUser>
     {
         public EventDbContext (DbContextOptions<EventDbContext> options)
             : base(options)
