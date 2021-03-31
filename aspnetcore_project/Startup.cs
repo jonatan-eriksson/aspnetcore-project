@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Data;
 using Microsoft.AspNetCore.Identity;
+using aspnetcore_project.Models;
 
 namespace aspnetcore_project
 {
@@ -30,7 +31,7 @@ namespace aspnetcore_project
 
             services.AddDbContext<EventDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("EventDbContext")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<EventDbContext>();
         }
 
