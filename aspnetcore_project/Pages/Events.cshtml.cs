@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Data;
 using aspnetcore_project.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspnetcore_project.Pages
 {
+    [Authorize]
     public class EventsModel : PageModel
     {
         private readonly aspnetcore_project.Data.EventDbContext _context;

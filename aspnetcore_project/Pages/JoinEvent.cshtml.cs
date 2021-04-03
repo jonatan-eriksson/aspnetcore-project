@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Data;
 using aspnetcore_project.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project.Pages
 {
+    [Authorize]
     public class JoinEventModel : PageModel
     {
         private readonly aspnetcore_project.Data.EventDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public JoinEventModel(aspnetcore_project.Data.EventDbContext context)
+        public JoinEventModel(aspnetcore_project.Data.EventDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public Event Event { get; set; }
@@ -43,6 +48,7 @@ namespace aspnetcore_project.Pages
                 return NotFound();
             }
 
+            
             Event = await _context.Events.Include(e => e.Attendees).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Event == null)
@@ -50,7 +56,8 @@ namespace aspnetcore_project.Pages
                 return NotFound();
             }
 
-            var attendee = await _context.Users.FirstOrDefaultAsync() as User;
+            var userId = _userManager.GetUserId(this.User);
+            var attendee = await _context.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
 
             if (!Event.Attendees.Contains(attendee))
             {
