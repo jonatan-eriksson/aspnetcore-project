@@ -21,15 +21,13 @@ namespace aspnetcore_project.Pages
         public MyEventsModel(aspnetcore_project.Data.EventDbContext context, UserManager<User> userManager)
         {
             _context = context;
-            _userManager = userManager;
-            
+            _userManager = userManager;   
         }
 
         public IList<Event> Events { get;set; }
 
         public async Task OnGetAsync()
         {
-
             var userId = _userManager.GetUserId(this.User);
             User attendee = await _context.Users.Include(a => a.JoindEvents).Where(u => u.Id == userId).FirstOrDefaultAsync();
             Events = attendee.JoindEvents;

@@ -11,7 +11,6 @@ namespace aspnetcore_project.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<Event> HostedEvents { get; set; }
-       
         public List<Event> JoindEvents { get; set; }
     }
 }
