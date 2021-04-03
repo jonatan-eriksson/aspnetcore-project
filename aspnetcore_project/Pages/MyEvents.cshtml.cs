@@ -34,3 +34,4 @@ namespace aspnetcore_project.Pages
         }
     }
 }
+
