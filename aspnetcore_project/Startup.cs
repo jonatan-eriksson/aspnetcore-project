@@ -31,8 +31,9 @@ namespace aspnetcore_project
 
             services.AddDbContext<EventDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("EventDbContext")));
-            services.AddDefaultIdentity<User>()
-                .AddEntityFrameworkStores<EventDbContext>();
+           // services.AddDefaultIdentity<User>()
+              //  .AddEntityFrameworkStores<EventDbContext>();
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<EventDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using aspnetcore_project.Data;
 using aspnetcore_project.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project
 {
@@ -16,16 +17,31 @@ namespace aspnetcore_project
     {
         private readonly aspnetcore_project.Data.EventDbContext _context;
 
+        
+
+
+
+
+
         public ManageUsersModel(aspnetcore_project.Data.EventDbContext context)
         {
             _context = context;
+            
+
         }
 
-        public IList<User> Users { get;set; }
+        public IList<User> Users { get; set; }
+       
 
         public async Task OnGetAsync()
         {
             Users = await _context.Users.ToListAsync();
         }
+        public async Task OnPostAsync()
+        {
+            Users = await _context.Users.ToListAsync();
+        }
+
+
     }
 }
