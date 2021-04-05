@@ -18,12 +18,23 @@ namespace aspnetcore_project.Data
 
         public DbSet<Event> Events { get; set; }
 
-        public void ResetAndSeed()
+        public async Task ResetAndSeedAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            await Database.EnsureDeletedAsync();
+            await Database.EnsureCreatedAsync();
 
-          
+            
+            var role = new IdentityRole("Administrator");
+            await roleManager.CreateAsync(role);
+
+            var user = new User { UserName = "admin@events.test", Email = "admin@events.test", EmailConfirmed = true };
+            var userCreation = await userManager.CreateAsync(user, "Password1!");
+
+            if (userCreation.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, role.Name);
+            }
+
 
             Event[] events = new Event[] {
                 new Event(){
@@ -47,9 +58,9 @@ namespace aspnetcore_project.Data
             };
 
             
-            AddRange(events);
-
-            SaveChanges();
+            await AddRangeAsync(events);
+            
+            await SaveChangesAsync();
         }
     }
 }
