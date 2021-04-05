@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project.Data
 {
-    public class EventDbContext : IdentityDbContext <User>
+    public class EventDbContext : IdentityDbContext<User>
     {
-        public EventDbContext (DbContextOptions<EventDbContext> options)
+        public EventDbContext(DbContextOptions<EventDbContext> options)
             : base(options)
         {
         }

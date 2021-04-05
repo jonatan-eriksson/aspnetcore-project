@@ -26,6 +26,8 @@ namespace aspnetcore_project.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -44,36 +46,6 @@ namespace aspnetcore_project.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attendees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendees", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Organizers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Organizers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,38 +166,38 @@ namespace aspnetcore_project.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpotsAvailable = table.Column<int>(type: "int", nullable: false),
-                    OrganizerId = table.Column<int>(type: "int", nullable: true)
+                    OrganizerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Events_Organizers_OrganizerId",
+                        name: "FK_Events_AspNetUsers_OrganizerId",
                         column: x => x.OrganizerId,
-                        principalTable: "Organizers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AttendeeEvent",
+                name: "EventUser",
                 columns: table => new
                 {
-                    AttendeesId = table.Column<int>(type: "int", nullable: false),
-                    EventsId = table.Column<int>(type: "int", nullable: false)
+                    AttendeesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    JoindEventsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AttendeeEvent", x => new { x.AttendeesId, x.EventsId });
+                    table.PrimaryKey("PK_EventUser", x => new { x.AttendeesId, x.JoindEventsId });
                     table.ForeignKey(
-                        name: "FK_AttendeeEvent_Attendees_AttendeesId",
+                        name: "FK_EventUser_AspNetUsers_AttendeesId",
                         column: x => x.AttendeesId,
-                        principalTable: "Attendees",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AttendeeEvent_Events_EventsId",
-                        column: x => x.EventsId,
+                        name: "FK_EventUser_Events_JoindEventsId",
+                        column: x => x.JoindEventsId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -271,14 +243,14 @@ namespace aspnetcore_project.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttendeeEvent_EventsId",
-                table: "AttendeeEvent",
-                column: "EventsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Events_OrganizerId",
                 table: "Events",
                 column: "OrganizerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUser_JoindEventsId",
+                table: "EventUser",
+                column: "JoindEventsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -299,22 +271,16 @@ namespace aspnetcore_project.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AttendeeEvent");
+                name: "EventUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Attendees");
-
-            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Organizers");
+                name: "AspNetUsers");
         }
     }
 }

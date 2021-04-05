@@ -10,7 +10,7 @@ using aspnetcore_project.Data;
 namespace aspnetcore_project.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20210331173817_initialcreate")]
+    [Migration("20210403173804_initialcreate")]
     partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,19 +21,19 @@ namespace aspnetcore_project.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AttendeeEvent", b =>
+            modelBuilder.Entity("EventUser", b =>
                 {
-                    b.Property<int>("AttendeesId")
+                    b.Property<string>("AttendeesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("JoindEventsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventsId")
-                        .HasColumnType("int");
+                    b.HasKey("AttendeesId", "JoindEventsId");
 
-                    b.HasKey("AttendeesId", "EventsId");
+                    b.HasIndex("JoindEventsId");
 
-                    b.HasIndex("EventsId");
-
-                    b.ToTable("AttendeeEvent");
+                    b.ToTable("EventUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -85,71 +85,6 @@ namespace aspnetcore_project.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -236,27 +171,6 @@ namespace aspnetcore_project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("aspnetcore_project.Models.Attendee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attendees");
-                });
-
             modelBuilder.Entity("aspnetcore_project.Models.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -273,8 +187,8 @@ namespace aspnetcore_project.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrganizerId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrganizerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Place")
                         .HasColumnType("nvarchar(max)");
@@ -292,30 +206,80 @@ namespace aspnetcore_project.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("aspnetcore_project.Models.Organizer", b =>
+            modelBuilder.Entity("aspnetcore_project.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Email")
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Organizers");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("AttendeeEvent", b =>
+            modelBuilder.Entity("EventUser", b =>
                 {
-                    b.HasOne("aspnetcore_project.Models.Attendee", null)
+                    b.HasOne("aspnetcore_project.Models.User", null)
                         .WithMany()
                         .HasForeignKey("AttendeesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,7 +287,7 @@ namespace aspnetcore_project.Migrations
 
                     b.HasOne("aspnetcore_project.Models.Event", null)
                         .WithMany()
-                        .HasForeignKey("EventsId")
+                        .HasForeignKey("JoindEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -339,7 +303,7 @@ namespace aspnetcore_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("aspnetcore_project.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -348,7 +312,7 @@ namespace aspnetcore_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("aspnetcore_project.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -363,7 +327,7 @@ namespace aspnetcore_project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("aspnetcore_project.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,7 +336,7 @@ namespace aspnetcore_project.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("aspnetcore_project.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -381,16 +345,16 @@ namespace aspnetcore_project.Migrations
 
             modelBuilder.Entity("aspnetcore_project.Models.Event", b =>
                 {
-                    b.HasOne("aspnetcore_project.Models.Organizer", "Organizer")
-                        .WithMany("Events")
+                    b.HasOne("aspnetcore_project.Models.User", "Organizer")
+                        .WithMany("HostedEvents")
                         .HasForeignKey("OrganizerId");
 
                     b.Navigation("Organizer");
                 });
 
-            modelBuilder.Entity("aspnetcore_project.Models.Organizer", b =>
+            modelBuilder.Entity("aspnetcore_project.Models.User", b =>
                 {
-                    b.Navigation("Events");
+                    b.Navigation("HostedEvents");
                 });
 #pragma warning restore 612, 618
         }

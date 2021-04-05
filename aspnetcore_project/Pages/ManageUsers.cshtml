@@ -8,7 +8,7 @@
 <h1>ManageUsers</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="/CreateRoleView">Create Role</a>
 </p>
 <table class="table">
     <thead>
@@ -22,6 +22,7 @@
             <th>
                 Is Organizer
             </th>
+           
         </tr>
     </thead>
     <tbody>
@@ -34,9 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
+                <input type="checkbox" value="1" class="checkbox" id="checkbox1" /> 
+            </td>
+            <td>
                 @*
-                IsOrganizer item
-                @Html.DisplayFor(modelItem => item)
+            IsOrganizer item
+            @Html.DisplayFor(modelItem => item)
                 *@
             </td>
         </tr>
