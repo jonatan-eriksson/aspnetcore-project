@@ -23,7 +23,7 @@ namespace aspnetcore_project.Data
             await Database.EnsureDeletedAsync();
             await Database.EnsureCreatedAsync();
 
-            
+
             var role = new IdentityRole("Administrator");
             await roleManager.CreateAsync(role);
 
