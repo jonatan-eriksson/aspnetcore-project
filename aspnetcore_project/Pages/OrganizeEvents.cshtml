@@ -1,0 +1,40 @@
+﻿@page
+@model aspnetcore_project.Pages.OrganizeEventsModel
+
+@{
+    ViewData["Title"] = "OrganizeEvents";
+}
+
+<h1>Organize Events</h1>
+
+<p>
+    <a asp-page="AddEvent">Create New Event</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Place</th>
+            <th>Date</th>
+            <th>Spots available</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Events) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Place)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpotsAvailable)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

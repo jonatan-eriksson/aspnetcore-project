@@ -33,7 +33,13 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             
-           
+            <td>
+                <form method="post">
+                    <input type="checkbox" onclick="this.form.submit()" value="remember"/>
+                    <input type="hidden" name="id" value="@item.Id" />
+
+                </form>
+            </td>
             
             <td>
                 @*

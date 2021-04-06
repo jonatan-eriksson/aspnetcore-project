@@ -38,8 +38,28 @@ namespace aspnetcore_project
         {
             Users = await _context.Users.ToListAsync();
         }
-       
-       
-        
+        public async Task<IActionResult> OnPostAsync(Guid? id)
+        {
+            if (id == Guid.Empty)
+            {
+                return Page();
+            }
+
+            var role = "Organizer";
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (await _userManager.IsInRoleAsync(user, role))
+            {
+                await _userManager.RemoveFromRoleAsync(user, role);
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, role);
+            }
+
+            return RedirectToPage();
+        }
+
+
     }
 }

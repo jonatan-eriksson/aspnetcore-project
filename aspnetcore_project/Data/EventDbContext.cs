@@ -24,15 +24,16 @@ namespace aspnetcore_project.Data
             await Database.EnsureCreatedAsync();
 
 
-            var role = new IdentityRole("Administrator");
-            await roleManager.CreateAsync(role);
+            await roleManager.CreateAsync(new IdentityRole("Administrator"));
+            await roleManager.CreateAsync(new IdentityRole("Organizer"));
+
 
             var user = new User { UserName = "admin@events.test", Email = "admin@events.test", EmailConfirmed = true };
             var userCreation = await userManager.CreateAsync(user, "Password1!");
 
             if (userCreation.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, role.Name);
+                await userManager.AddToRoleAsync(user, "Administrator");
             }
 
 
