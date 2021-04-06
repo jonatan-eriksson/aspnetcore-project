@@ -10,7 +10,16 @@
         <li class="nav-item">
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)</a>
         </li>
-      @if (User.IsInRole("Administrator"))
+        @if (User.IsInRole("Organizer"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/OrganizeEvents">Organize Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/AddEvent">Add Event</a>
+            </li>
+        }
+        @if (User.IsInRole("Administrator"))
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-page="/ManageUsers">Manage Users</a>
