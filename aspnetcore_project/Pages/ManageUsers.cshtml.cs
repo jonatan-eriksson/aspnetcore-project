@@ -12,21 +12,22 @@ using Microsoft.AspNetCore.Identity;
 
 namespace aspnetcore_project
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class ManageUsersModel : PageModel
     {
         private readonly aspnetcore_project.Data.EventDbContext _context;
-
-        
-
-
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
 
 
+      
 
-        public ManageUsersModel(aspnetcore_project.Data.EventDbContext context)
+        public ManageUsersModel(aspnetcore_project.Data.EventDbContext context,RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _context = context;
-            
+            _roleManager = roleManager;
+            _userManager = userManager;
+
 
         }
 
@@ -37,11 +38,8 @@ namespace aspnetcore_project
         {
             Users = await _context.Users.ToListAsync();
         }
-        public async Task OnPostAsync()
-        {
-            Users = await _context.Users.ToListAsync();
-        }
+       
 
-
+        
     }
 }
