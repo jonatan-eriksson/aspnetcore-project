@@ -16,28 +16,22 @@ namespace aspnetcore_project
     public class ManageUsersModel : PageModel
     {
         private readonly aspnetcore_project.Data.EventDbContext _context;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
-
-      
-
-        public ManageUsersModel(aspnetcore_project.Data.EventDbContext context,RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        public ManageUsersModel(aspnetcore_project.Data.EventDbContext context, UserManager<User> userManager)
         {
             _context = context;
-            _roleManager = roleManager;
             _userManager = userManager;
-
-
         }
 
         public IList<User> Users { get; set; }
-       
+
 
         public async Task OnGetAsync()
         {
             Users = await _context.Users.ToListAsync();
         }
+
         public async Task<IActionResult> OnPostAsync(Guid? id)
         {
             if (id == Guid.Empty)
@@ -60,6 +54,10 @@ namespace aspnetcore_project
             return RedirectToPage();
         }
 
+        public async Task<bool> IsOrganizer(User user)
+        {
+            return await _userManager.IsInRoleAsync(user, "Organizer");
+        }
 
     }
 }

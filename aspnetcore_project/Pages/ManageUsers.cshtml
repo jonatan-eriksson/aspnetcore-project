@@ -20,34 +20,36 @@
             <th>
                 Is Organizer
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Users) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            
-            <td>
-                <form method="post">
-                    <input type="checkbox" onclick="this.form.submit()" value="remember"/>
-                    <input type="hidden" name="id" value="@item.Id" />
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
 
-                </form>
-            </td>
-            
-            <td>
-                @*
-            IsOrganizer item
-            @Html.DisplayFor(modelItem => item)
-                *@
-            </td>
-        </tr>
-}
+                <td>
+                    <form method="post">
+                        <input type="checkbox" onclick="this.form.submit()" @if(await Model.IsOrganizer(item))
+                        {@("checked=true")} />
+                        <input type="hidden" name="id" value="@item.Id" />
+
+                    </form>
+                </td>
+
+                <td>
+                    @*
+                        IsOrganizer item
+                        @Html.DisplayFor(modelItem => item)
+                    *@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
